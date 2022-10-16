@@ -1,25 +1,11 @@
-import logo from './logo.svg';
-import React, { useEffect, useState } from "react";
-import './App.css';
+import React from "react";
 
-function App() {
-  const [hello, setHello] = useState('No data')
-
-  const callAPI = () => {
-    fetch('http://localhost:9000/newroute')
-    .then(r => r.text())
-    .then(resp => {
-      setHello(resp)
-    });
-  }
-
-  useEffect(() => {
-    callAPI()
-  }, []) 
+const App = () => {
+  // app logic
 
   return (
     <div>
-      {hello}
+      hello world!
     </div>
   );
 }
