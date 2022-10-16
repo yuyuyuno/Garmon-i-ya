@@ -1,2 +1,2 @@
 # Garmon-i-ya
-Melody harmonization app
+Melody harmonization app.
