@@ -1,9 +1,9 @@
-const onListening = () => {
+const onListening = (server) => {
     const addr = server.address();
     const bind = typeof addr === 'string'
         ? `pipe ${addr}`
         : `port ${addr.port}`;
-    debug('Listening on ' + bind);
+    console.log(`Server is listening on ${bind}`);
 }
 
 module.exports = onListening;

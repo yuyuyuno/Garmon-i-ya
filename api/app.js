@@ -22,6 +22,6 @@ const server = http.createServer(app);
 
 server.listen(port);
 server.on('error', onError);
-server.on('listening', onListening);
+server.on('listening', () => onListening(server));
 
 module.exports = app;
