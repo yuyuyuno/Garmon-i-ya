@@ -1,1 +1,3 @@
-export const Input = () => <div>Input</div>;
+import { InputField } from "./InputField";
+
+export const Input = () => <div>Input<InputField/></div>;

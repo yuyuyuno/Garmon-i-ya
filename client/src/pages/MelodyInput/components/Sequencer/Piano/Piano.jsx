@@ -1,1 +1,3 @@
-export const Piano = () => <div>Piano</div>;
+import { PianoKey } from "./PianoKey";
+
+export const Piano = () => <div>Piano<PianoKey/></div>;
