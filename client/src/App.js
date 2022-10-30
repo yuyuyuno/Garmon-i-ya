@@ -1,11 +1,14 @@
 import React from "react";
 
+import { MelodyInput } from "./pages/MelodyInput";
+
 const App = () => {
   // app logic
 
   return (
     <div>
-      hello world!
+      APP COMPONENT
+      <MelodyInput/>
     </div>
   );
 }

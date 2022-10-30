@@ -1,0 +1,1 @@
+export { ResultButton } from './ResultButton';
