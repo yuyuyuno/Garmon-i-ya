@@ -20,6 +20,10 @@ const OCTAVE_LENGTH = KEY_NAMES.length;
 const getRangeArray = (elementsCount) => [...new Array(elementsCount).keys()];
 
 export const Piano = (props) => {
+	const pianoStyles = {
+		width: '180px',
+	};
+
 	const { keysCount = 48, showKeyNames = true } = props;
 
 	const isKeyBlack = (keyIndex) => {
@@ -36,13 +40,13 @@ export const Piano = (props) => {
 		};
 	};
 
-	const keysInfo = getRangeArray(keysCount).map((keyIndex) =>
-		getKeyInfo(keyIndex)
-	);
+	const keysInfo = getRangeArray(keysCount)
+		.map((keyIndex) => getKeyInfo(keyIndex))
+		.reverse();
 
 	return (
-		<div>
-			{keysInfo.map((i, keyInfo) => (
+		<div style={pianoStyles}>
+			{keysInfo.map((keyInfo, i) => (
 				<PianoKey key={i} {...keyInfo} />
 			))}
 		</div>
