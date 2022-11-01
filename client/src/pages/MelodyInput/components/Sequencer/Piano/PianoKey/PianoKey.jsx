@@ -9,9 +9,5 @@ export const PianoKey = (props) => {
 	};
 
 	console.log(props);
-	return (
-		<div style={keyStyles}>
-			{label} {isBlack}
-		</div>
-	);
+	return <div style={keyStyles}>{label}</div>;
 };
