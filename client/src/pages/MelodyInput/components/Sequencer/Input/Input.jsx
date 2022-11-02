@@ -1,4 +1,4 @@
-import { getRangeArray } from '../Piano/Piano';
+import { getRangeArray } from '../../../../../utils';
 
 export const Input = (props) => {
 	const { rowCount = 48, columnCount = 12, inputMelody, clickHandler } = props;
