@@ -1,4 +1,5 @@
 import { PianoKey } from './PianoKey';
+import { getRangeArray } from '../../../../../utils';
 
 const KEY_NAMES = [
 	'C',
@@ -16,8 +17,6 @@ const KEY_NAMES = [
 ];
 
 const OCTAVE_LENGTH = KEY_NAMES.length;
-
-const getRangeArray = (elementsCount) => [...new Array(elementsCount).keys()];
 
 export const Piano = (props) => {
 	const pianoStyles = {

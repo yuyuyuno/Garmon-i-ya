@@ -8,6 +8,5 @@ export const PianoKey = (props) => {
 		textAlign: 'right',
 	};
 
-	console.log(props);
 	return <div style={keyStyles}>{label}</div>;
 };
