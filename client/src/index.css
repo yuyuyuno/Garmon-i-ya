@@ -12,6 +12,6 @@ code {
 		monospace;
 }
 
-.inputfield td:nth-child(4n) {
+.inputfield td:nth-child(8n) {
 	border-right: 3px solid !important;
 }

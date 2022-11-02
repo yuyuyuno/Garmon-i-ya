@@ -1,7 +1,7 @@
 import { getRangeArray } from '../../../../../utils';
 
 export const Input = (props) => {
-	const { rowCount = 48, columnCount = 12, inputMelody, clickHandler } = props;
+	const { rowCount = 48, columnCount, inputMelody, clickHandler } = props;
 
 	const tableStyles = {
 		border: '1px solid',

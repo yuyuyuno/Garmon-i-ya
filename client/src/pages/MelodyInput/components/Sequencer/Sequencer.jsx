@@ -4,7 +4,7 @@ import { Input } from './Input';
 import { Piano } from './Piano';
 
 export const Sequencer = () => {
-	const [inputMelody, setInputMelody] = useState(new Array(12).fill(null));
+	const [inputMelody, setInputMelody] = useState(new Array(24).fill(null));
 
 	const sequencerStyles = {
 		display: 'flex',
