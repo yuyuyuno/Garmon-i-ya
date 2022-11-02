@@ -1,6 +1,7 @@
+import { useState } from 'react';
+
 import { Input } from './Input';
 import { Piano } from './Piano';
-import { useState } from 'react';
 
 export const Sequencer = () => {
 	const [inputMelody, setInputMelody] = useState(new Array(12).fill(null));
