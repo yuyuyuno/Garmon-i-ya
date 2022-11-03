@@ -13,5 +13,5 @@ code {
 }
 
 .inputfield td:nth-child(8n) {
-	border-right: 3px solid !important;
+	border-right: 2px solid !important;
 }

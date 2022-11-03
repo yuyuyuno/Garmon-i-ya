@@ -7,11 +7,13 @@ export const Input = (props) => {
 		border: '1px solid',
 		borderCollapse: 'collapse',
 		backgroundColor: '#ECEDF2',
+		borderColor: '#72768A',
 	};
 	const cellStyles = {
 		border: '1px solid',
 		width: '30px',
 		padding: '0px',
+		borderColor: '#72768A',
 	};
 
 	return (
