@@ -22,7 +22,12 @@ export const Input = (props) => {
 				{getRangeArray(rowCount).map(() => (
 					<tr>
 						{getRangeArray(columnCount).map(() => (
-							<td style={cellStyles}></td>
+							<td
+								style={cellStyles}
+								onClick={(e) =>
+									clickHandler(e.target.parentNode.rowIndex, e.target.cellIndex)
+								}
+							></td>
 						))}
 					</tr>
 				))}
