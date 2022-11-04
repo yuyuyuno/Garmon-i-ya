@@ -1,3 +1,4 @@
+import { Note } from './Note';
 import { getRangeArray } from '../../../../../utils';
 
 export const Input = (props) => {
@@ -25,7 +26,11 @@ export const Input = (props) => {
 							<td
 								style={cellStyles}
 								onClick={() => clickHandler(rowIndex, columnIndex)}
-							></td>
+							>
+								{inputMelody[columnIndex] && (
+									<Note headOfLongNote={false} bodyOfLongNote={false} />
+								)}
+							</td>
 						))}
 					</tr>
 				))}
