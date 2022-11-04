@@ -37,6 +37,7 @@ export const Sequencer = () => {
 		});
 
 		setInputMelody(newMelody);
+		console.log(newMelody);
 	};
 
 	return (

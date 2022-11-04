@@ -19,14 +19,12 @@ export const Input = (props) => {
 	return (
 		<table style={tableStyles} className="inputfield">
 			<tbody>
-				{getRangeArray(rowCount).map(() => (
+				{getRangeArray(rowCount).map((rowIndex) => (
 					<tr>
-						{getRangeArray(columnCount).map(() => (
+						{getRangeArray(columnCount).map((columnIndex) => (
 							<td
 								style={cellStyles}
-								onClick={(e) =>
-									clickHandler(e.target.parentNode.rowIndex, e.target.cellIndex)
-								}
+								onClick={() => clickHandler(rowIndex, columnIndex)}
 							></td>
 						))}
 					</tr>
