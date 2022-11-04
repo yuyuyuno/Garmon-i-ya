@@ -23,6 +23,9 @@ export const Sequencer = () => {
 	};
 
 	const deleteNote = (newMelody, index) => {
+		if (newMelody[index] === null) {
+			return;
+		}
 		if (newMelody[index].isHeld) {
 			let columnCopy = index - 1;
 			while (newMelody[columnCopy].isHeld) {
@@ -43,17 +46,21 @@ export const Sequencer = () => {
 		const newMelody = [...inputMelody];
 		const range = getRangeArray(lengthToCellQuantity[noteLength], column);
 
-		range.forEach((index) => {
-			if (newMelody[index] !== null) {
+		if (
+			newMelody[column] &&
+			newMelody[column].note === keyIndexToNote(47 - row)
+		) {
+			deleteNote(newMelody, column);
+		} else {
+			range.forEach((index) => {
 				deleteNote(newMelody, index);
-			}
 
-			newMelody[index] = {
-				note: keyIndexToNote(47 - row),
-				isHeld: index > column,
-			};
-		});
-
+				newMelody[index] = {
+					note: keyIndexToNote(47 - row),
+					isHeld: index > column,
+				};
+			});
+		}
 		setInputMelody(newMelody);
 	};
 
