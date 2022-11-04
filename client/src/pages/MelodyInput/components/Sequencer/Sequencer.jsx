@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import { getRangeArray } from '../../../../utils';
 import { Input } from './Input';
 import { Piano } from './Piano';
 import { keyIndexToNote } from '../../../../utils';
+import { getRangeArray } from '../../../../utils';
 
 export const Sequencer = () => {
 	const sequencerStyles = {
@@ -13,7 +13,7 @@ export const Sequencer = () => {
 	};
 
 	const [inputMelody, setInputMelody] = useState(new Array(24).fill(null));
-	const [noteLength, setNoteLength] = useState('eighth');
+	const [noteLength, setNoteLength] = useState('half');
 
 	const lengthToCellQuantity = {
 		eighth: 1,
@@ -25,16 +25,39 @@ export const Sequencer = () => {
 	const changeMelody = (row, column) => {
 		const newMelody = [...inputMelody];
 
-		const range = getRangeArray(lengthToCellQuantity[noteLength], column);
+		if (newMelody[column] !== null) {
+			//если нужно удалить
 
-		range.forEach((index) => {
-			index > column
-				? (newMelody[index] = { note: keyIndexToNote(47 - row), isHeld: true })
-				: (newMelody[index] = {
-						note: keyIndexToNote(47 - row),
-						isHeld: false,
-				  });
-		});
+			if (newMelody[column].isHeld) {
+				//если мы не в начале нотки
+				let columnCopy = column - 1;
+				while (newMelody[columnCopy].isHeld) {
+					newMelody[columnCopy] = null;
+					--columnCopy; // удаляем влево
+				}
+				newMelody[columnCopy] = null; // удаляем начало нотки
+			}
+			newMelody[column] = null;
+			++column;
+			while (newMelody[column] !== null && newMelody[column].isHeld) {
+				newMelody[column] = null;
+				++column; // удаляем вправо
+			}
+		} else {
+			const range = getRangeArray(lengthToCellQuantity[noteLength], column);
+
+			range.forEach((index) => {
+				index > column
+					? (newMelody[index] = {
+							note: keyIndexToNote(47 - row),
+							isHeld: true,
+					  })
+					: (newMelody[index] = {
+							note: keyIndexToNote(47 - row),
+							isHeld: false,
+					  });
+			});
+		}
 
 		setInputMelody(newMelody);
 		console.log(newMelody);
