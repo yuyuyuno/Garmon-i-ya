@@ -44,7 +44,10 @@ export const Sequencer = () => {
 
 	const changeMelody = (row, column) => {
 		const newMelody = [...inputMelody];
-		const range = getRangeArray(lengthToCellQuantity[noteLength], column);
+		const noteInterval = getRangeArray(
+			lengthToCellQuantity[noteLength],
+			column
+		);
 
 		if (
 			newMelody[column] &&
@@ -52,12 +55,12 @@ export const Sequencer = () => {
 		) {
 			deleteNote(newMelody, column);
 		} else {
-			range.forEach((index) => {
-				deleteNote(newMelody, index);
+			noteInterval.forEach((cellIndex) => {
+				deleteNote(newMelody, cellIndex);
 
-				newMelody[index] = {
+				newMelody[cellIndex] = {
 					note: keyIndexToNote(47 - row),
-					isHeld: index > column,
+					isHeld: cellIndex > column,
 				};
 			});
 		}
