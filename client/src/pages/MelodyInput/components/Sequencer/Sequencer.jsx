@@ -22,45 +22,39 @@ export const Sequencer = () => {
 		whole: 8,
 	};
 
+	const deleteNote = (newMelody, index) => {
+		if (newMelody[index].isHeld) {
+			let columnCopy = index - 1;
+			while (newMelody[columnCopy].isHeld) {
+				newMelody[columnCopy] = null;
+				--columnCopy;
+			}
+			newMelody[columnCopy] = null;
+		}
+		newMelody[index] = null;
+		++index;
+		while (newMelody[index] !== null && newMelody[index].isHeld) {
+			newMelody[index] = null;
+			++index;
+		}
+	};
+
 	const changeMelody = (row, column) => {
 		const newMelody = [...inputMelody];
+		const range = getRangeArray(lengthToCellQuantity[noteLength], column);
 
-		if (newMelody[column] !== null) {
-			//если нужно удалить
-
-			if (newMelody[column].isHeld) {
-				//если мы не в начале нотки
-				let columnCopy = column - 1;
-				while (newMelody[columnCopy].isHeld) {
-					newMelody[columnCopy] = null;
-					--columnCopy; // удаляем влево
-				}
-				newMelody[columnCopy] = null; // удаляем начало нотки
+		range.forEach((index) => {
+			if (newMelody[index] !== null) {
+				deleteNote(newMelody, index);
 			}
-			newMelody[column] = null;
-			++column;
-			while (newMelody[column] !== null && newMelody[column].isHeld) {
-				newMelody[column] = null;
-				++column; // удаляем вправо
-			}
-		} else {
-			const range = getRangeArray(lengthToCellQuantity[noteLength], column);
 
-			range.forEach((index) => {
-				index > column
-					? (newMelody[index] = {
-							note: keyIndexToNote(47 - row),
-							isHeld: true,
-					  })
-					: (newMelody[index] = {
-							note: keyIndexToNote(47 - row),
-							isHeld: false,
-					  });
-			});
-		}
+			newMelody[index] = {
+				note: keyIndexToNote(47 - row),
+				isHeld: index > column,
+			};
+		});
 
 		setInputMelody(newMelody);
-		console.log(newMelody);
 	};
 
 	return (
