@@ -1,22 +1,7 @@
 import { PianoKey } from './PianoKey';
 import { getRangeArray } from '../../../../../utils';
-
-const KEY_NAMES = [
-	'C',
-	'C#',
-	'D',
-	'D#',
-	'E',
-	'F',
-	'F#',
-	'G',
-	'G#',
-	'A',
-	'A#',
-	'B',
-];
-
-const OCTAVE_LENGTH = KEY_NAMES.length;
+import { OCTAVE_LENGTH } from '../../../../../utils';
+import { keyIndexToNote } from '../../../../../utils';
 
 export const Piano = (props) => {
 	const pianoStyles = {
@@ -32,10 +17,9 @@ export const Piano = (props) => {
 	};
 
 	const getKeyInfo = (keyIndex) => {
-		const keyIndexInOctave = keyIndex % OCTAVE_LENGTH;
 		return {
-			label: showKeyNames ? KEY_NAMES[keyIndexInOctave] : '',
-			isBlack: isKeyBlack(keyIndexInOctave),
+			label: showKeyNames ? keyIndexToNote(keyIndex) : '',
+			isBlack: isKeyBlack(keyIndex % OCTAVE_LENGTH),
 		};
 	};
 
