@@ -7,3 +7,11 @@ export const getRangeArray = (elementsCount, firstElement = 0) => {
 
 	return range;
 };
+
+export const pushIfNotNull = (arr, elems) => {
+	elems.forEach((elem) => {
+		if (elem) {
+			arr.push(elem);
+		}
+	});
+};

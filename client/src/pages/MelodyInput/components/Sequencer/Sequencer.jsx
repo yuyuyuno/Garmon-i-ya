@@ -2,18 +2,16 @@ import { useState } from 'react';
 
 import { Input } from './Input';
 import { Piano } from './Piano';
-import { keyIndexToNote } from '../../../../utils';
-import { getRangeArray } from '../../../../utils';
+import { keyIndexToNote, getRangeArray } from '../../../../utils';
 
-export const Sequencer = () => {
+export const Sequencer = (props) => {
+	const { inputMelody, noteLength, setInputMelody } = props;
+
 	const sequencerStyles = {
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'stretch',
 	};
-
-	const [inputMelody, setInputMelody] = useState(new Array(24).fill(null));
-	const [noteLength, setNoteLength] = useState('half');
 
 	const lengthToCellQuantity = {
 		eighth: 1,
