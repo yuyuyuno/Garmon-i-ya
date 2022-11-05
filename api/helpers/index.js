@@ -1,6 +1,6 @@
 const errorHandler = require('./errorHandler');
-const onListening = require('./onListening');
-const onError = require('./onError');
+const handleListening = require('./handleListening');
+const errorHandler = require('./errorHandler');
 const normalizePort = require('./normalizePort');
 
-module.exports = { errorHandler, onListening, onError, normalizePort };
+module.exports = { errorHandler, handleListening, errorHandler, normalizePort };
