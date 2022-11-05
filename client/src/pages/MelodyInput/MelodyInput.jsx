@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from '../../components/Button';
 import { Sequencer } from './components/Sequencer';
 
-import { getRangeArray } from '../../utils';
+import { getRangeArray, pushIfNotNull, noteInfoToNoteObj } from '../../utils';
 
 export const MelodyInput = () => {
 	const [inputMelody, setInputMelody] = useState(new Array(24).fill(null));
@@ -11,66 +11,71 @@ export const MelodyInput = () => {
 	let nullCounter = 0;
 	let longNoteCounter = 1;
 
-	const addNoteToMeasure = (measureNotes, noteInfo) => {
-		measureNotes.push({
-			noteName: noteInfo[0],
-			noteLength: noteInfo[1],
-		});
-	};
-
-	const handleLastMeasureNote = (
-		measureNotes,
-		measureIndex,
-		melodyNoteIndex
-	) => {
+	const getLastMeasureNote = (measureIndex, melodyNoteIndex) => {
 		const isLastCell = melodyNoteIndex === (measureIndex + 1) * 8 - 1;
 		if (!isLastCell) {
 			return;
 		}
 
-		addNoteToMeasure(measureNotes, [
-			inputMelody[melodyNoteIndex] ? inputMelody[melodyNoteIndex].note : 'stop',
-			inputMelody[melodyNoteIndex] ? longNoteCounter : nullCounter,
+		const noteInfo = inputMelody[melodyNoteIndex];
+		const lastNote = noteInfoToNoteObj([
+			noteInfo?.note || 'stop',
+			noteInfo ? longNoteCounter : nullCounter,
 		]);
 
 		longNoteCounter = 1;
 		nullCounter = 0;
+
+		return lastNote;
+	};
+
+	const getNoteBeforeEmptyCell = (isFirstCell, prevCell) => {
+		++nullCounter;
+
+		if (isFirstCell || !prevCell) {
+			return;
+		}
+
+		const cellNote = noteInfoToNoteObj([prevCell.note, longNoteCounter]);
+		longNoteCounter = 1;
+
+		return cellNote;
+	};
+
+	const getNoteFromPrevCell = (prevCell) => {
+		const cellNote = noteInfoToNoteObj([prevCell.note, longNoteCounter]);
+		longNoteCounter = 1;
+
+		return cellNote;
+	};
+
+	const getStopNote = () => {
+		const cellNote = noteInfoToNoteObj(['stop', nullCounter]);
+		nullCounter = 0;
+
+		return cellNote;
 	};
 
 	const getCellNote = (melodyNoteIndex, measureIndex) => {
-		const measureNotes = [];
-
 		const isFirstCell = melodyNoteIndex === measureIndex * 8;
 		const prevCell = inputMelody[melodyNoteIndex - 1];
 
 		if (!inputMelody[melodyNoteIndex]) {
-			++nullCounter;
-			if (!isFirstCell && prevCell) {
-				addNoteToMeasure(measureNotes, [prevCell.note, longNoteCounter]);
-				longNoteCounter = 1;
-			}
+			return getNoteBeforeEmptyCell(isFirstCell, prevCell);
 		}
 
-		if (inputMelody[melodyNoteIndex]) {
-			if (!isFirstCell && nullCounter) {
-				addNoteToMeasure(measureNotes, ['stop', nullCounter]);
-				nullCounter = 0;
-			} else {
-				if (inputMelody[melodyNoteIndex]?.isHeld) {
-					++longNoteCounter;
-				} else {
-					if (!isFirstCell && prevCell?.isHeld) {
-						addNoteToMeasure(measureNotes, [prevCell.note, longNoteCounter]);
-						longNoteCounter = 1;
-					}
-				}
-			}
+		if (!isFirstCell && nullCounter) {
+			return getStopNote();
 		}
 
-		handleLastMeasureNote(measureNotes, measureIndex, melodyNoteIndex);
+		if (inputMelody[melodyNoteIndex]?.isHeld) {
+			++longNoteCounter;
+			return;
+		}
 
-		console.log('NOTE OR 2', measureNotes);
-		return measureNotes;
+		if (!isFirstCell && prevCell) {
+			return getNoteFromPrevCell(prevCell);
+		}
 	};
 
 	const handleResButtonClick = () => {
@@ -78,7 +83,11 @@ export const MelodyInput = () => {
 		const melodyArray = getRangeArray(measureCount).map((measureIndex) =>
 			getRangeArray(8, measureIndex * 8).reduce(
 				(measureNotes, melodyNoteIndex) => {
-					measureNotes.push(...getCellNote(melodyNoteIndex, measureIndex));
+					pushIfNotNull(measureNotes, [
+						getCellNote(melodyNoteIndex, measureIndex),
+						getLastMeasureNote(measureIndex, melodyNoteIndex),
+					]);
+
 					return measureNotes;
 				},
 				[]
