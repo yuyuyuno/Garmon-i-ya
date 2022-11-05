@@ -1,7 +1,7 @@
 import { PianoKey } from './PianoKey';
-import { getRangeArray } from '../../../../../utils';
-import { OCTAVE_LENGTH } from '../../../../../utils';
-import { keyIndexToNote } from '../../../../../utils';
+
+import { getRangeArray, keyIndexToNote } from '../../../../../utils';
+import { OCTAVE_LENGTH } from '../../../../../constants';
 
 export const Piano = (props) => {
 	const pianoStyles = {
