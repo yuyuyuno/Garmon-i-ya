@@ -12,7 +12,7 @@ dotenv.config();
 
 server.use(cors());
 server.use(express.json());
-routes.forEach((route) => server.use('api', route));
+routes.forEach((route) => server.use(route));
 server.use(express.static(path.join(__dirname, 'public')));
 
 server.listen(PORT, () => {

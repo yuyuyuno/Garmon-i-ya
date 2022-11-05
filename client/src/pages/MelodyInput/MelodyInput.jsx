@@ -100,10 +100,10 @@ export const MelodyInput = () => {
 
 	const handleResButtonClick = () => {
 		const melodyArray = adaptMelodyArray();
-		console.log(melodyArray);
+		console.log('TEST melodyArray', melodyArray);
 
 		axios
-			.post('/api/harmonization/melodies', {})
+			.post('/api/harmonization/melodies', { melody: melodyArray })
 			.then((shit) => console.log(shit));
 	};
 
