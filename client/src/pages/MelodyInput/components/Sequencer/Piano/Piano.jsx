@@ -30,7 +30,7 @@ export const Piano = (props) => {
 	return (
 		<div style={pianoStyles}>
 			{keysInfo.map((keyInfo, i) => (
-				<PianoKey key={i} {...keyInfo} />
+				<PianoKey key={`pianokey${i}`} {...keyInfo} />
 			))}
 		</div>
 	);

@@ -23,9 +23,10 @@ export const Input = (props) => {
 		<table style={tableStyles} className="inputfield">
 			<tbody>
 				{getRangeArray(rowCount).map((rowIndex) => (
-					<tr>
+					<tr key={`tr${rowIndex}`}>
 						{getRangeArray(columnCount).map((columnIndex) => (
 							<td
+								key={`td${columnIndex}`}
 								style={cellStyles}
 								onClick={() => clickHandler(rowIndex, columnIndex)}
 							>
