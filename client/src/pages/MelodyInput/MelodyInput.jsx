@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from '../../axiosWrapper';
 
 import { Button } from '../../components/Button';
 import { Sequencer } from './components/Sequencer';
@@ -78,7 +79,7 @@ export const MelodyInput = () => {
 		}
 	};
 
-	const handleResButtonClick = () => {
+	const adaptMelodyArray = () => {
 		const measureCount = inputMelody.length / 8;
 		const melodyArray = getRangeArray(measureCount).map((measureIndex) =>
 			getRangeArray(8, measureIndex * 8).reduce(
@@ -94,7 +95,16 @@ export const MelodyInput = () => {
 			)
 		);
 
+		return melodyArray;
+	};
+
+	const handleResButtonClick = () => {
+		const melodyArray = adaptMelodyArray();
 		console.log(melodyArray);
+
+		axios
+			.post('/api/harmonization/melodies', {})
+			.then((shit) => console.log(shit));
 	};
 
 	return (
