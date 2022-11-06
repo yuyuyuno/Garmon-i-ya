@@ -95,7 +95,25 @@ export const MelodyInput = (props) => {
 	};
 
 	const handleResButtonClick = () => {
-		const melody = adaptMelodyArray();
+		const starryNight = [
+			[
+				{ noteName: 'D4', noteLength: 4 },
+				{ noteName: 'A4', noteLength: 2 },
+				{ noteName: 'A4', noteLength: 2 },
+			],
+			[
+				{ noteName: 'D4', noteLength: 4 },
+				{ noteName: 'A4', noteLength: 2 },
+				{ noteName: 'A4', noteLength: 2 },
+			],
+			[
+				{ noteName: 'C4', noteLength: 4 },
+				{ noteName: 'A4', noteLength: 2 },
+				{ noteName: 'A4', noteLength: 2 },
+			],
+		];
+
+		const melody = starryNight; // adaptMelodyArray();
 		let result;
 
 		axios
