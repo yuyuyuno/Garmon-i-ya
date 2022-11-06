@@ -99,12 +99,19 @@ export const MelodyInput = () => {
 	};
 
 	const handleResButtonClick = () => {
-		const melodyArray = adaptMelodyArray();
-		console.log('TEST melodyArray', melodyArray);
+		const melody = adaptMelodyArray();
 
 		axios
-			.post('/api/harmonization/melodies', { melody: melodyArray })
-			.then((shit) => console.log(shit));
+			.post('/api/harmonization/melodies', { melody })
+			.then((res) => {
+				console.log('Result is: ', res.data.harmonizedMelody);
+			})
+			.catch((err) => {
+				console.log('Error: ', err.code, err.message);
+			})
+			.finally(() => {
+				console.log('Finally...');
+			});
 	};
 
 	return (
