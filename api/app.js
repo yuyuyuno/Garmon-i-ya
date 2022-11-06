@@ -1,27 +1,22 @@
-const express = require('express');
+const dotenv = require('dotenv');
 const path = require('path');
+const express = require('express');
 const cors = require('cors');
-const http = require('http');
 
-const { onListening, errorHandler, onError, normalizePort } = require('./helpers');
+const routes = require('./routes');
 
-const app = express();
+const PORT = process.env.PORT || 3001;
+const server = express();
 
-app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+dotenv.config();
 
-app.use((req, res, next) => {
-  errorHandler(next, 404);
+server.use(cors());
+server.use(express.json());
+routes.forEach((route) => server.use(route));
+server.use(express.static(path.join(__dirname, 'public')));
+
+server.listen(PORT, () => {
+	console.log(`Server listening on ${PORT}`);
 });
 
-const port = normalizePort(process.env.PORT || '9000');
-app.set('port', port);
-
-const server = http.createServer(app);
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', () => onListening(server));
-
-module.exports = app;
+module.exports = server;

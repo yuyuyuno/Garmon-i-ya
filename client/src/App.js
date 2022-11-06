@@ -1,16 +1,26 @@
-import React from "react";
+import React, { useState } from 'react';
 
-import { MelodyInput } from "./pages/MelodyInput";
+import { MelodyInput } from './pages/MelodyInput';
 
 const App = () => {
-  // app logic
+	const [appState, setAppState] = useState('input');
+	const [outputContent, setOutputContent] = useState(null);
 
-  return (
-    <div>
-      APP COMPONENT
-      <MelodyInput/>
-    </div>
-  );
-}
+	return (
+		<div>
+			{appState === 'input' && (
+				<MelodyInput
+					handleGetHarmonized={(harmonizationResult) => {
+						setOutputContent(harmonizationResult);
+						setAppState('output');
+					}}
+				/>
+			)}
+			{appState === 'output' && (
+				<div>Result screen props: {JSON.stringify(outputContent)}</div>
+			)}
+		</div>
+	);
+};
 
 export default App;
