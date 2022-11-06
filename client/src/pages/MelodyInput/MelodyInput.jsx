@@ -6,9 +6,12 @@ import { Sequencer } from './components/Sequencer';
 
 import { getRangeArray, pushIfNotNull, noteInfoToNoteObj } from '../../utils';
 
-export const MelodyInput = () => {
+export const MelodyInput = (props) => {
+	const { handleGetHarmonized } = props;
+
 	const [inputMelody, setInputMelody] = useState(new Array(24).fill(null));
 	const [noteLength, setNoteLength] = useState('quarter');
+
 	let nullCounter = 0;
 	let longNoteCounter = 1;
 
@@ -100,24 +103,30 @@ export const MelodyInput = () => {
 
 	const handleResButtonClick = () => {
 		const melody = adaptMelodyArray();
+		let result;
 
 		axios
 			.post('/api/harmonization/melodies', { melody })
 			.then((res) => {
-				console.log('Result is: ', res.data.harmonizedMelody);
+				result = {
+					status: 'ok',
+					sheets: res.data.harmonizedMelody,
+				};
 			})
 			.catch((err) => {
-				console.log('Error: ', err.code, err.message);
+				result = {
+					status: 'error',
+					errorCode: err.code,
+					errorMessage: err.message,
+				};
 			})
 			.finally(() => {
-				console.log('Finally...');
+				handleGetHarmonized(result);
 			});
 	};
 
 	return (
 		<div>
-			MelodyInput page
-			<br />
 			<Sequencer
 				inputMelody={inputMelody}
 				noteLength={noteLength}
