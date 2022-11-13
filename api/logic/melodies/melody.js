@@ -72,10 +72,13 @@ function getNoteAbc(noteInfo) {
 	switch (octaveNumber) {
 		case '3':
 			note = `${note},`;
+			break;
 		case '5':
 			note = note.toLowerCase();
+			break;
 		case '6':
 			note = `${note.toLowerCase()}'`;
+			break;
 	}
 	if (isSharp(noteInfo)) {
 		note = '^' + note.slice(0, -1);
