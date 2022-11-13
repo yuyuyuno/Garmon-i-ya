@@ -33,7 +33,22 @@ export const Input = (props) => {
 								{inputMelody[columnIndex] !== null &&
 									inputMelody[columnIndex].note ===
 										keyIndexToNote(47 - rowIndex) && (
-										<Note headOfLongNote={false} bodyOfLongNote={false} />
+										<Note
+											headOfLongNote={
+												!inputMelody[columnIndex].isHeld &&
+												inputMelody[columnIndex + 1]?.isHeld
+											}
+											bodyOfLongNote={
+												inputMelody[columnIndex - 1] !== null &&
+												inputMelody[columnIndex].isHeld &&
+												inputMelody[columnIndex + 1] != null &&
+												inputMelody[columnIndex + 1].isHeld
+											}
+											tailOfLongNote={
+												inputMelody[columnIndex].isHeld &&
+												!inputMelody[columnIndex + 1]?.isHeld
+											}
+										/>
 									)}
 							</td>
 						))}

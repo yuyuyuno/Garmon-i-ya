@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { MelodyInput } from './pages/MelodyInput';
+import { MelodyOutput } from './pages/MelodyOutput';
 
 const App = () => {
 	const [appState, setAppState] = useState('input');
@@ -16,8 +17,8 @@ const App = () => {
 					}}
 				/>
 			)}
-			{appState === 'output' && (
-				<div>Result screen props: {JSON.stringify(outputContent)}</div>
+			{appState === 'output' && outputContent.status === 'ok' && (
+				<MelodyOutput results={outputContent.sheets} />
 			)}
 		</div>
 	);

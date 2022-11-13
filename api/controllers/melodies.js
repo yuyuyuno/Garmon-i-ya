@@ -17,7 +17,7 @@ const Melody = require('../logic/melodies/melody');
 */
 const harmonizeMelody = (req, res) => {
 	const { melody } = req.body;
-	const harmonizedMelody = new Melody(melody).harmonize().notes;
+	const harmonizedMelody = new Melody(melody).harmonize().getAbc();
 
 	res.status(200).send({
 		harmonizedMelody,

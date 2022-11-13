@@ -3,7 +3,7 @@ class Harmonizer {
 
 	constructor(melody) {
 		this.#melody = melody;
-		console.log('The melody to harmonize is: ', this.#melody);
+		// console.log('The melody to harmonize is: ', this.#melody);
 	}
 }
 

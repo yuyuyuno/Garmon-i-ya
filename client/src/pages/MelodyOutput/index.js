@@ -1,0 +1,1 @@
+export { MelodyOutput } from './MelodyOutput';
