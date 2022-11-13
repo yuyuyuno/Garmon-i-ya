@@ -43,10 +43,11 @@ function getAbc() {
 	console.log('Given notes: ', this.notes);
 	const startAbc =
 		'X:1\nT:Harmonized Melody\nR: Harmonized by GARMON I YA\nK:C\nV:1 clef=treble\n';
-	const notesAbc = this.notes.reduce(
-		(resAbc, curMeasure) => resAbc + getMeasureAbc(curMeasure) + '|',
-		startAbc
-	);
+	const notesAbc =
+		this.notes.reduce(
+			(resAbc, curMeasure) => resAbc + getMeasureAbc(curMeasure) + '|',
+			startAbc
+		) + '\nV:2 clef=bass\nz8|z8|z8|'; //harmonization results to be merged here
 	console.log(notesAbc);
 	return notesAbc;
 }
