@@ -79,10 +79,12 @@ function getNoteAbc(noteInfo) {
 		case '6':
 			note = `${note.toLowerCase()}'`;
 			break;
+		default:
+			break;
 	}
 	if (isSharp(noteInfo)) {
-		note = '^' + note.slice(0, -1);
-		note = note.substr(0, 2) + note.substr(3);
+		note = '^' + note;
+		note = note.substring(0, 2) + note.substring(3);
 	}
 	return note + noteInfo.noteLength;
 }
