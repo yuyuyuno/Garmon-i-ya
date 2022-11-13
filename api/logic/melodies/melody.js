@@ -11,6 +11,7 @@ class Melody {
 	static getNoteAbc = getNoteAbc;
 	static getPauseAbc = getPauseAbc;
 	static isStop = isStop;
+	static isSharp = isSharp;
 
 	constructor(melody) {
 		this.#notes = melody;
@@ -40,9 +41,11 @@ function harmonize(options) {
 
 function getAbc() {
 	console.log('Given notes: ', this.notes);
+	const startAbc =
+		'X:1\nT:Harmonized Melody\nR: Harmonized by GARMON I YA\nK:C\nV:1 clef=treble\n';
 	const notesAbc = this.notes.reduce(
 		(resAbc, curMeasure) => resAbc + getMeasureAbc(curMeasure) + '|',
-		''
+		startAbc
 	);
 	console.log(notesAbc);
 	return notesAbc;
@@ -52,7 +55,7 @@ function getMeasureAbc(measure) {
 	const measureAbc = measure.reduce((resMeasureAbc, curNote) => {
 		let curNoteAbc;
 		if (isStop(curNote)) {
-			curNoteAbc = getPauseAbc(curNote.length);
+			curNoteAbc = getPauseAbc(curNote.noteLength);
 		} else {
 			curNoteAbc = getNoteAbc(curNote);
 		}
@@ -68,11 +71,15 @@ function getNoteAbc(noteInfo) {
 	note = noteInfo.noteName.slice(0, -1);
 	switch (octaveNumber) {
 		case '3':
-			note = `${noteInfo.noteName},`;
+			note = `${note},`;
 		case '5':
-			note = noteInfo.noteName.toLowerCase();
+			note = note.toLowerCase();
 		case '6':
-			note = `${noteInfo.noteName}'`;
+			note = `${note.toLowerCase()}'`;
+	}
+	if (isSharp(noteInfo)) {
+		note = '^' + note.slice(0, -1);
+		note = note.substr(0, 2) + note.substr(3);
 	}
 	return note + noteInfo.noteLength;
 }
@@ -83,6 +90,10 @@ function getPauseAbc(pauseLength) {
 
 function isStop(noteInfo) {
 	return noteInfo.noteName === 'stop';
+}
+
+function isSharp(noteInfo) {
+	return noteInfo.noteName[1] === '#';
 }
 
 module.exports = Melody;

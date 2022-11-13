@@ -10,10 +10,7 @@ export const MelodyOutput = (props) => {
 	console.log('Harmonized melody', results);
 
 	useEffect(() => {
-		renderAbc(
-			ref.current,
-			'X:1\nT:Harmonized Melody\nR: Harmonized by GARMON I YA\nK:Bb\nBcde|\n'
-		);
+		renderAbc(ref.current, results);
 	}, []);
 
 	return <div ref={ref}></div>;

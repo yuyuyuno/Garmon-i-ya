@@ -113,7 +113,7 @@ export const MelodyInput = (props) => {
 			],
 		];
 
-		const melody = starryNight; // adaptMelodyArray();
+		const melody = adaptMelodyArray(); // starryNight
 		let result;
 
 		axios
