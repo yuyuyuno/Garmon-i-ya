@@ -17,8 +17,8 @@ import {
 export const MelodyInput = (props) => {
 	const { handleGetHarmonized } = props;
 
-	const [noteLength, setNoteLength] = useState('quarter');
-	const [inputMelody, setInputMelody] = useState(new Array(24).fill(null));
+	const [noteLength, setNoteLength] = useState('eighth');
+	const [inputMelody, setInputMelody] = useState(new Array(32).fill(null));
 
 	const adaptMelodyArray = () => {
 		const measureCount = inputMelody.length / 8;
@@ -145,18 +145,24 @@ export const MelodyInput = (props) => {
 			});
 	};
 
+	const buttons = [
+		{ clickHandler: addMeasure, label: '+' },
+		{ clickHandler: deleteMeasure, label: '-' },
+		{ clickHandler: handleResButtonClick, label: 'harmonize' },
+	];
+
 	return (
 		<div>
 			<Toolbar
-				addButtonClickHandler={addMeasure}
-				removeButton={deleteMeasure}
+				buttons={buttons}
+				selectedLength={noteLength}
+				selectLength={setNoteLength}
 			/>
 			<Sequencer
 				inputMelody={inputMelody}
 				noteLength={noteLength}
 				setInputMelody={setInputMelody}
 			/>
-			<Button clickHandler={handleResButtonClick} label={'harmonize'} />
 		</div>
 	);
 };
