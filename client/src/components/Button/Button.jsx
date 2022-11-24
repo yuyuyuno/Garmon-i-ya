@@ -1,5 +1,13 @@
 export const Button = (props) => {
 	const { clickHandler, label } = props;
 
-	return <button onClick={clickHandler}>{label}</button>;
+	const buttonStyles = {
+		margin: '5px',
+	};
+
+	return (
+		<button class="glow-on-hover" style={buttonStyles} onClick={clickHandler}>
+			{label}
+		</button>
+	);
 };

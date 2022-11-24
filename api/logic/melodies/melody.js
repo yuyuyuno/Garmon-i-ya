@@ -23,9 +23,9 @@ class Melody {
 }
 
 function removeStops() {
-	const melodyWithoutStops = this.notes.map((measure) =>
-		measure.filter((note) => note.noteName !== 'stop')
-	);
+	const melodyWithoutStops = this.notes
+		.map((measure) => measure.filter((note) => note.noteName !== 'stop'))
+		.filter((measure) => measure.length);
 
 	return melodyWithoutStops;
 }
@@ -33,7 +33,7 @@ function removeStops() {
 function harmonize(options) {
 	const filteredNotes = this.removeStops();
 	const harmonizer = new Harmonizer(filteredNotes);
-
+	console.log(harmonizer.krumhanslSchmuckler());
 	// The magic of harmonization later
 
 	return this;
