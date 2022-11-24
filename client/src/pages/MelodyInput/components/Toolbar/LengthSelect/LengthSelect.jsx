@@ -17,9 +17,8 @@ export const LengthSelect = (props) => {
 			<legend>Select note length:</legend>
 
 			{noteLengths.map((note, i) => (
-				<div>
+				<div key={`radiofield${i}`}>
 					<input
-						key={`radiofield${i}`}
 						type="radio"
 						name="noteLength"
 						value={note.value}
