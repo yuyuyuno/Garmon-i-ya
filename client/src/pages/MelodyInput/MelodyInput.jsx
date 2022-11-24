@@ -3,6 +3,7 @@ import axios from '../../axiosWrapper';
 
 import { Button } from '../../components/Button';
 import { Sequencer } from './components/Sequencer';
+import { Toolbar } from './components/Toolbar';
 
 import {
 	getRangeArray,
@@ -16,8 +17,8 @@ import {
 export const MelodyInput = (props) => {
 	const { handleGetHarmonized } = props;
 
-	const [inputMelody, setInputMelody] = useState(new Array(24).fill(null));
-	const [noteLength, setNoteLength] = useState('quarter');
+	const [noteLength, setNoteLength] = useState('eighth');
+	const [inputMelody, setInputMelody] = useState(new Array(32).fill(null));
 
 	const adaptMelodyArray = () => {
 		const measureCount = inputMelody.length / 8;
@@ -94,6 +95,14 @@ export const MelodyInput = (props) => {
 		return melodyArray;
 	};
 
+	const addMeasure = () => {
+		setInputMelody(inputMelody.concat(...new Array(8).fill(null)));
+	};
+
+	const deleteMeasure = () => {
+		setInputMelody(inputMelody.slice(0, inputMelody.length - 8));
+	};
+
 	const handleResButtonClick = () => {
 		const starryNight = [
 			[
@@ -136,14 +145,24 @@ export const MelodyInput = (props) => {
 			});
 	};
 
+	const buttons = [
+		{ clickHandler: addMeasure, label: '+' },
+		{ clickHandler: deleteMeasure, label: '-' },
+		{ clickHandler: handleResButtonClick, label: 'harmonize' },
+	];
+
 	return (
 		<div>
+			<Toolbar
+				buttons={buttons}
+				selectedLength={noteLength}
+				selectLength={setNoteLength}
+			/>
 			<Sequencer
 				inputMelody={inputMelody}
 				noteLength={noteLength}
 				setInputMelody={setInputMelody}
 			/>
-			<Button clickHandler={handleResButtonClick} label={'harmonize'} />
 		</div>
 	);
 };
