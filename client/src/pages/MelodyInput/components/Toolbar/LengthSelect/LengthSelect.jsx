@@ -1,6 +1,10 @@
 export const LengthSelect = (props) => {
 	const { selectedLength, selectLength } = props;
 
+	const lengthSelectStyles = {
+		backgroundColor: '#F7F5F9',
+	};
+
 	const noteLengths = [
 		{ value: 'eighth', label: '1/8' },
 		{ value: 'quarter', label: '1/4' },
@@ -9,7 +13,7 @@ export const LengthSelect = (props) => {
 	];
 
 	return (
-		<fieldset>
+		<fieldset style={lengthSelectStyles}>
 			<legend>Select note length:</legend>
 
 			{noteLengths.map((note, i) => (

@@ -148,7 +148,7 @@ export const MelodyInput = (props) => {
 	const buttons = [
 		{ clickHandler: addMeasure, label: '+' },
 		{ clickHandler: deleteMeasure, label: '-' },
-		{ clickHandler: handleResButtonClick, label: 'harmonize' },
+		{ clickHandler: handleResButtonClick, label: 'Harmonize →' },
 	];
 
 	return (
