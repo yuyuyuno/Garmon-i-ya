@@ -22,7 +22,7 @@ export const Toolbar = (props) => {
 			{buttons.map((button, i) => (
 				<Button
 					key={`button${i}`}
-					class="btn"
+					className="btn"
 					clickHandler={button.clickHandler}
 					label={button.label}
 				/>

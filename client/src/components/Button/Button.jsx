@@ -6,7 +6,11 @@ export const Button = (props) => {
 	};
 
 	return (
-		<button class="glow-on-hover" style={buttonStyles} onClick={clickHandler}>
+		<button
+			className="glow-on-hover"
+			style={buttonStyles}
+			onClick={clickHandler}
+		>
 			{label}
 		</button>
 	);
