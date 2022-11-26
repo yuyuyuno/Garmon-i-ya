@@ -33,7 +33,7 @@ function removeStops() {
 function harmonize(options) {
 	const filteredNotes = this.removeStops();
 	const harmonizer = new Harmonizer(filteredNotes);
-	console.log(harmonizer.getChordNotes());
+	console.log(harmonizer.getChordsAbc());
 	// The magic of harmonization later
 
 	return this;
