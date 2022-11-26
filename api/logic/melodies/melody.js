@@ -36,7 +36,7 @@ function harmonize(options) {
 	console.log(harmonizer.getChordsAbc());
 	// The magic of harmonization later
 
-	return this;
+	return harmonizer.getArpeggioAbc();
 }
 
 function getAbc() {
@@ -47,7 +47,9 @@ function getAbc() {
 		this.notes.reduce(
 			(resAbc, curMeasure) => resAbc + getMeasureAbc(curMeasure) + '|',
 			startAbc
-		) + '\nV:2 clef=bass\nz8|z8|z8|'; //harmonization results to be merged here
+		) +
+		'\nV:2 clef=bass\n' +
+		this.harmonize(); //harmonization results to be merged here
 	console.log(notesAbc);
 	return notesAbc;
 }

@@ -7,9 +7,9 @@ class Harmonizer {
 	getChordNotes = getChordNotes;
 	getKeyNotes = getKeyNotes;
 	getChordsAbc = getChordsAbc;
+	getArpeggioAbc = getArpeggioAbc;
 	majorKey = [0, 2, 4, 5, 7, 9, 11];
 	minorKey = [0, 2, 3, 5, 7, 8, 10];
-	inKeyChord = [];
 
 	constructor(melody) {
 		this.#melody = melody;
@@ -51,14 +51,20 @@ function getChordNotes() {
 			)
 		)
 		.map((note) => note.noteName.slice(0, -1));
+
+	chordNotes.splice(-1);
+	keyNotes = this.getKeyNotes();
+	chordNotes.push(keyNotes[0]);
+
 	return chordNotes;
 }
 
 function getChordsAbc() {
 	let chordsAbc = '';
-	const chordNotes = this.getChordNotes();
-	const keyNotes = this.getKeyNotes();
+	const chordNotes = this.getChordNotes().map((elem) => sharpToAbc(elem));
+	const keyNotes = this.getKeyNotes().map((elem) => sharpToAbc(elem));
 
+	console.log(chordNotes);
 	chordNotes.forEach((elem) => {
 		if (keyNotes.includes(elem)) {
 			chordsAbc += `[${elem},8${
@@ -70,6 +76,36 @@ function getChordsAbc() {
 		chordsAbc += '|';
 	});
 	return chordsAbc;
+}
+
+function getArpeggioAbc() {
+	let arpeggioAbc = '';
+	let lowerOctave = ',';
+	const chordNotes = this.getChordNotes().map((elem) => sharpToAbc(elem));
+	const keyNotes = this.getKeyNotes().map((elem) => sharpToAbc(elem));
+
+	console.log(chordNotes);
+	chordNotes.forEach((elem) => {
+		elem === 'C' || '^C' || 'D' || '^D' || 'E'
+			? (tonic = elem)
+			: (tonic = elem + lowerOctave);
+		fifth = keyNotes[(keyNotes.indexOf(elem) + 4) % keyNotes.length];
+		if (keyNotes.includes(elem)) {
+			arpeggioAbc += tonic + ',2' + fifth + ',2' + tonic + '2' + fifth + ',2';
+		} else {
+			arpeggioAbc += `${elem},8`;
+		}
+		arpeggioAbc += '|';
+	});
+	return arpeggioAbc;
+}
+
+function sharpToAbc(noteName) {
+	if (noteName[1] === '#') {
+		noteName = '^' + noteName;
+		noteName = noteName.substring(0, 2);
+	}
+	return noteName;
 }
 
 module.exports = Harmonizer;
