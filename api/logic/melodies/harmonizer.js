@@ -50,14 +50,15 @@ function getArpeggioAbc() {
 	const chordNotes = this.getChordNotes().map((elem) => sharpToAbc(elem));
 	const abcNotes = NOTE_NAMES.map((elem) => sharpToAbc(elem));
 
-	chordNotes.forEach((rootNote) => {
+	chordNotes.forEach((rootNote, index) => {
 		fifth = abcNotes[(abcNotes.indexOf(rootNote) + 7) % abcNotes.length];
 		console.log(rootNote.slice(-1));
 		if (rootNote.slice(-1) < 'C' || rootNote.slice(-1) > 'E') {
 			rootNote += lowerOctave;
 		}
-		arpeggioAbc +=
-			rootNote + ',2' + fifth + ',2' + rootNote + '2' + fifth + ',2';
+		if (index !== chordNotes.length - 1)
+			arpeggioAbc += `${rootNote},2${fifth},2${rootNote}2${fifth},2|`;
+		else arpeggioAbc += `[${rootNote},8${fifth},8]|`;
 	});
 
 	return arpeggioAbc;

@@ -33,10 +33,11 @@ function removeStops() {
 function harmonize(options) {
 	const filteredNotes = this.removeStops();
 	const harmonizer = new Harmonizer(filteredNotes);
-	console.log(harmonizer.getChordsAbc());
-	// The magic of harmonization later
-
-	return harmonizer.getChordsAbc();
+	if (options) {
+		return harmonizer.getChordsAbc();
+	} else {
+		return harmonizer.getArpeggioAbc();
+	}
 }
 
 function getAbc() {
@@ -49,7 +50,7 @@ function getAbc() {
 			startAbc
 		) +
 		'\nV:2 clef=bass\n' +
-		this.harmonize(); //harmonization results to be merged here
+		this.harmonize(true); //harmonization results to be merged here
 	console.log(notesAbc);
 	return notesAbc;
 }
