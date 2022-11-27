@@ -8,9 +8,12 @@ class Harmonizer {
 	getKeyNotes = getKeyNotes;
 	getChordsAbc = getChordsAbc;
 	getArpeggioAbc = getArpeggioAbc;
-	getRootNotes = getRootNotes;
 	majorKey = [0, 2, 4, 5, 7, 9, 11];
 	minorKey = [0, 2, 3, 5, 7, 8, 10];
+
+	static getRootNotes = getRootNotes;
+	static sharpToAbc = sharpToAbc;
+	static getOutOfKeyChordAbc = getOutOfKeyChordAbc;
 
 	constructor(melody) {
 		this.#melody = melody;
@@ -27,13 +30,13 @@ function getChordsAbc() {
 	const keyNotes = this.getKeyNotes().map((elem) => sharpToAbc(elem));
 
 	console.log(chordNotes);
-	chordNotes.forEach((elem) => {
-		if (keyNotes.includes(elem)) {
-			chordsAbc += `[${elem},8${
-				keyNotes[(keyNotes.indexOf(elem) + 2) % keyNotes.length]
-			},8${keyNotes[(keyNotes.indexOf(elem) + 4) % keyNotes.length]},8]`;
+	chordNotes.forEach((rootNote) => {
+		if (keyNotes.includes(rootNote)) {
+			chordsAbc += `[${rootNote},8${
+				keyNotes[(keyNotes.indexOf(rootNote) + 2) % keyNotes.length]
+			},8${keyNotes[(keyNotes.indexOf(rootNote) + 4) % keyNotes.length]},8]`;
 		} else {
-			chordsAbc += `${elem},8`;
+			chordsAbc += getOutOfKeyChordAbc(rootNote);
 		}
 		chordsAbc += '|';
 	});
@@ -47,13 +50,14 @@ function getArpeggioAbc() {
 	const chordNotes = this.getChordNotes().map((elem) => sharpToAbc(elem));
 	const abcNotes = NOTE_NAMES.map((elem) => sharpToAbc(elem));
 
-	chordNotes.forEach((root) => {
-		fifth = abcNotes[(abcNotes.indexOf(root) + 7) % abcNotes.length];
-		console.log(root.slice(-1));
-		if (root.slice(-1) < 'C' || root.slice(-1) > 'E') {
-			root += lowerOctave;
+	chordNotes.forEach((rootNote) => {
+		fifth = abcNotes[(abcNotes.indexOf(rootNote) + 7) % abcNotes.length];
+		console.log(rootNote.slice(-1));
+		if (rootNote.slice(-1) < 'C' || rootNote.slice(-1) > 'E') {
+			rootNote += lowerOctave;
 		}
-		arpeggioAbc += root + ',2' + fifth + ',2' + root + '2' + fifth + ',2';
+		arpeggioAbc +=
+			rootNote + ',2' + fifth + ',2' + rootNote + '2' + fifth + ',2';
 	});
 
 	return arpeggioAbc;
@@ -87,7 +91,39 @@ function getRootNotes(note, keyNotes) {
 	return noteName;
 }
 
-function getRandomChordAbc() {}
+function getOutOfKeyChordAbc(rootNote) {
+	const abcNotes = NOTE_NAMES.map((elem) => sharpToAbc(elem));
+	const oneOutOfSix = Math.floor(Math.random() * 6);
+	const intervals = [];
+
+	switch (oneOutOfSix) {
+		case 0:
+			intervals.push(3, 7);
+			break;
+		case 1:
+			intervals.push(4, 7);
+			break;
+		case 2:
+			intervals.push(3, 8);
+			break;
+		case 3:
+			intervals.push(4, 9);
+			break;
+		case 4:
+			intervals.push(5, 8);
+			break;
+		case 5:
+			intervals.push(5, 9);
+			break;
+	}
+
+	const secondNote =
+		abcNotes[(abcNotes.indexOf(rootNote) + intervals[0]) % abcNotes.length];
+	const thirdNote =
+		abcNotes[(abcNotes.indexOf(rootNote) + intervals[1]) % abcNotes.length];
+
+	return `[${rootNote},8${secondNote},8${thirdNote},8]`;
+}
 
 function getKeyNotes() {
 	const keyNotes = [];
