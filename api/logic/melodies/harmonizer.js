@@ -94,20 +94,15 @@ function getArpeggioAbc() {
 	let arpeggioAbc = '';
 	let lowerOctave = ',';
 	const chordNotes = this.getChordNotes().map((elem) => sharpToAbc(elem));
-	const keyNotes = this.getKeyNotes().map((elem) => sharpToAbc(elem));
+	const abcNotes = NOTE_NAMES.map((elem) => sharpToAbc(elem));
 
-	chordNotes.forEach((elem) => {
-		tonic = elem;
-		fifth = keyNotes[(keyNotes.indexOf(elem) + 4) % keyNotes.length];
-		if (elem !== ('C' || '^C' || 'D' || '^D' || 'E')) {
-			tonic += lowerOctave;
+	chordNotes.forEach((root) => {
+		fifth = abcNotes[(abcNotes.indexOf(root) + 7) % abcNotes.length];
+		console.log(root.slice(-1));
+		if (root.slice(-1) < 'C' || root.slice(-1) > 'E') {
+			root += lowerOctave;
 		}
-		if (keyNotes.includes(elem)) {
-			arpeggioAbc += tonic + ',2' + fifth + ',2' + tonic + '2' + fifth + ',2';
-		} else {
-			arpeggioAbc += `${elem},8`;
-		}
-		arpeggioAbc += '|';
+		arpeggioAbc += root + ',2' + fifth + ',2' + root + '2' + fifth + ',2';
 	});
 
 	return arpeggioAbc;
