@@ -56,9 +56,9 @@ function getChordNotes() {
 			if (keyNotes.includes(noteName)) {
 				const chance = Math.random();
 				if (chance <= 0.3) {
-					return keyNotes[keyNotes.indexOf(noteName) + (2 % keyNotes.length)];
+					return keyNotes[(keyNotes.indexOf(noteName) + 3) % keyNotes.length];
 				} else if (chance >= 0.7) {
-					return keyNotes[keyNotes.indexOf(noteName) - (2 % keyNotes.length)];
+					return keyNotes[(keyNotes.indexOf(noteName) + 5) % keyNotes.length];
 				}
 			}
 			return noteName;
