@@ -44,16 +44,27 @@ function getKeyNotes() {
 }
 
 function getChordNotes() {
+	const keyNotes = this.getKeyNotes();
 	const chordNotes = this.melody
 		.map((measure) =>
 			measure.reduce((prev, cur) =>
 				prev.noteLength >= cur.noteLength ? prev : cur
 			)
 		)
-		.map((note) => note.noteName.slice(0, -1));
+		.map((note) => {
+			const noteName = note.noteName.slice(0, -1);
+			if (keyNotes.includes(noteName)) {
+				const chance = Math.random();
+				if (chance <= 0.3) {
+					return keyNotes[keyNotes.indexOf(noteName) + (2 % keyNotes.length)];
+				} else if (chance >= 0.7) {
+					return keyNotes[keyNotes.indexOf(noteName) - (2 % keyNotes.length)];
+				}
+			}
+			return noteName;
+		});
 
 	chordNotes.splice(-1);
-	keyNotes = this.getKeyNotes();
 	chordNotes.push(keyNotes[0]);
 
 	return chordNotes;
@@ -84,7 +95,6 @@ function getArpeggioAbc() {
 	const chordNotes = this.getChordNotes().map((elem) => sharpToAbc(elem));
 	const keyNotes = this.getKeyNotes().map((elem) => sharpToAbc(elem));
 
-	console.log(chordNotes);
 	chordNotes.forEach((elem) => {
 		elem === 'C' || '^C' || 'D' || '^D' || 'E'
 			? (tonic = elem)
@@ -101,7 +111,7 @@ function getArpeggioAbc() {
 }
 
 function sharpToAbc(noteName) {
-	if (noteName[1] === '#') {
+	if (noteName.length === 2) {
 		noteName = '^' + noteName;
 		noteName = noteName.substring(0, 2);
 	}
