@@ -36,7 +36,7 @@ function harmonize(options) {
 	console.log(harmonizer.getChordsAbc());
 	// The magic of harmonization later
 
-	return harmonizer.getChordsAbc();
+	return harmonizer.getArpeggioAbc();
 }
 
 function getAbc() {

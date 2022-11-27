@@ -86,6 +86,7 @@ function getChordsAbc() {
 		}
 		chordsAbc += '|';
 	});
+
 	return chordsAbc;
 }
 
@@ -96,10 +97,11 @@ function getArpeggioAbc() {
 	const keyNotes = this.getKeyNotes().map((elem) => sharpToAbc(elem));
 
 	chordNotes.forEach((elem) => {
-		elem === 'C' || '^C' || 'D' || '^D' || 'E'
-			? (tonic = elem)
-			: (tonic = elem + lowerOctave);
+		tonic = elem;
 		fifth = keyNotes[(keyNotes.indexOf(elem) + 4) % keyNotes.length];
+		if (elem !== ('C' || '^C' || 'D' || '^D' || 'E')) {
+			tonic += lowerOctave;
+		}
 		if (keyNotes.includes(elem)) {
 			arpeggioAbc += tonic + ',2' + fifth + ',2' + tonic + '2' + fifth + ',2';
 		} else {
@@ -107,6 +109,7 @@ function getArpeggioAbc() {
 		}
 		arpeggioAbc += '|';
 	});
+
 	return arpeggioAbc;
 }
 
