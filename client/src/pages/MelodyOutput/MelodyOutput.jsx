@@ -7,41 +7,64 @@ import 'abcjs/abcjs-audio.css';
 
 export const MelodyOutput = (props) => {
 	const { results, goBack, retry } = props;
-	const ref = useRef();
+	const sheetRef = useRef();
+	const audioRef = useRef();
 
 	const buttons = [
 		{ clickHandler: retry, label: 'Retry' },
 		{ clickHandler: goBack, label: 'Return' },
 	];
 
-	/* const myContext = new AudioContext();
-	const visualObj = renderAbc(ref.current, results);
-	synth
-		.init({
-			audioContext: myContext,
-			visualObj: visualObj,
-			millisecondsPerMeasure: 500,
-			options: {
-				soundFontUrl: 'https:/path/to/soundfont/folder',
-				pan: [-0.3, 0.3],
-			},
-		})
-		.then(function (results) {
-			// Ready to play. The results are details about what was loaded.
-		})
-		.catch(function (reason) {
-			console.log(reason);
-		});
- */
+	const audioParams = { chordsOff: true };
+
+	useEffect(() => {
+		if (synth.supportsAudio()) {
+			const synthControl = new synth.SynthController();
+			synthControl.load(
+				audioRef.current,
+				{},
+				{
+					displayLoop: true,
+					displayRestart: true,
+					displayPlay: true,
+					displayProgress: true,
+					displayWarp: true,
+				}
+			);
+
+			const visualObj = renderAbc(sheetRef.current, results);
+			const createSynth = new synth.CreateSynth();
+			createSynth
+				.init({ visualObj: visualObj[0] })
+				.then(function () {
+					synthControl
+						.setTune(visualObj[0], false, audioParams)
+						.then(function () {
+							console.log('Audio successfully loaded.');
+						})
+						.catch(function (error) {
+							console.warn('Audio problem:', error);
+						});
+				})
+				.catch(function (error) {
+					console.warn('Audio problem:', error);
+				});
+		} else {
+			document.querySelector(audioRef.current).innerHTML =
+				'Audio is not supported in this browser.';
+		}
+	});
+
 	console.log('Harmonized melody', results);
 
 	useEffect(() => {
-		renderAbc(ref.current, results);
+		renderAbc(sheetRef.current, results);
 	}, []);
 
 	return (
 		<div>
-			<div ref={ref}></div>
+			<div ref={sheetRef}></div>
+			<div ref={audioRef}></div>
 			{buttons.map((button, i) => (
 				<Button
 					key={`button${i}`}
