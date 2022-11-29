@@ -16,8 +16,8 @@ const Melody = require('../logic/melodies/melody');
 	noteLength is a note length in count of 1/8;
 */
 const harmonizeMelody = (req, res) => {
-	const { melody } = req.body;
-	const harmonizedMelody = new Melody(melody).getAbc();
+	const { melody, options } = req.body;
+	const harmonizedMelody = new Melody(melody).getAbc(options);
 
 	res.status(200).send({
 		harmonizedMelody,
