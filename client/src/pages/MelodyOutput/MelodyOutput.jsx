@@ -1,11 +1,18 @@
 import { useRef, useEffect } from 'react';
 import { synth, renderAbc } from 'abcjs';
 
+import { Button } from '../../components/Button';
+
 import 'abcjs/abcjs-audio.css';
 
 export const MelodyOutput = (props) => {
-	const { results } = props;
+	const { results, goBack, retry } = props;
 	const ref = useRef();
+
+	const buttons = [
+		{ clickHandler: retry, label: 'Retry' },
+		{ clickHandler: goBack, label: 'Return' },
+	];
 
 	/* const myContext = new AudioContext();
 	const visualObj = renderAbc(ref.current, results);
@@ -32,5 +39,17 @@ export const MelodyOutput = (props) => {
 		renderAbc(ref.current, results);
 	}, []);
 
-	return <div ref={ref}></div>;
+	return (
+		<div>
+			<div ref={ref}></div>
+			{buttons.map((button, i) => (
+				<Button
+					key={`button${i}`}
+					className="btn"
+					clickHandler={button.clickHandler}
+					label={button.label}
+				/>
+			))}
+		</div>
+	);
 };

@@ -18,7 +18,13 @@ const App = () => {
 				/>
 			)}
 			{appState === 'output' && outputContent.status === 'ok' && (
-				<MelodyOutput results={outputContent.sheets} />
+				<MelodyOutput
+					results={outputContent.sheets}
+					goBack={() => {
+						setAppState('input');
+					}}
+					retry={() => {}}
+				/>
 			)}
 		</div>
 	);
