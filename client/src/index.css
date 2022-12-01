@@ -97,3 +97,7 @@ code {
 td:hover {
 	background-color: #c1d3e2;
 }
+
+tr:hover {
+	background-color: #e2e4ef;
+}

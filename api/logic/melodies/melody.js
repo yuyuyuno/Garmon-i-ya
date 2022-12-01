@@ -33,24 +33,24 @@ function removeStops() {
 function harmonize(options) {
 	const filteredNotes = this.removeStops();
 	const harmonizer = new Harmonizer(filteredNotes);
-	if (options) {
+	if (options === 'chrd') {
 		return harmonizer.getChordsAbc();
 	} else {
 		return harmonizer.getArpeggioAbc();
 	}
 }
 
-function getAbc() {
+function getAbc(options) {
 	console.log('Given notes: ', this.notes);
 	const startAbc =
-		'X:1\nT:Harmonized Melody\nR: Harmonized by GARMON I YA\nK:C\nV:1 clef=treble\n';
+		'X:1\nT:Harmonized Melody\nR: Harmonized by GARMON I YA\nM: 4/4\nK:C\nV:1 clef=treble\n';
 	const notesAbc =
 		this.notes.reduce(
 			(resAbc, curMeasure) => resAbc + getMeasureAbc(curMeasure) + '|',
 			startAbc
 		) +
 		'\nV:2 clef=bass\n' +
-		this.harmonize(true); //harmonization results to be merged here
+		this.harmonize(options);
 	console.log(notesAbc);
 	return notesAbc;
 }

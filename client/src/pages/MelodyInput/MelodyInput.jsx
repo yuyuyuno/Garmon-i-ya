@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import axios from '../../axiosWrapper';
 
-import { Button } from '../../components/Button';
 import { Sequencer } from './components/Sequencer';
 import { Toolbar } from './components/Toolbar';
 
@@ -18,6 +17,7 @@ export const MelodyInput = (props) => {
 	const { handleGetHarmonized } = props;
 
 	const [noteLength, setNoteLength] = useState('eighth');
+	const [option, setOption] = useState('chrd');
 	const [inputMelody, setInputMelody] = useState(new Array(32).fill(null));
 
 	const adaptMelodyArray = () => {
@@ -104,29 +104,12 @@ export const MelodyInput = (props) => {
 	};
 
 	const handleResButtonClick = () => {
-		const starryNight = [
-			[
-				{ noteName: 'D4', noteLength: 4 },
-				{ noteName: 'A4', noteLength: 2 },
-				{ noteName: 'A4', noteLength: 2 },
-			],
-			[
-				{ noteName: 'D4', noteLength: 4 },
-				{ noteName: 'A4', noteLength: 2 },
-				{ noteName: 'A4', noteLength: 2 },
-			],
-			[
-				{ noteName: 'C4', noteLength: 4 },
-				{ noteName: 'A4', noteLength: 2 },
-				{ noteName: 'A4', noteLength: 2 },
-			],
-		];
-
-		const melody = adaptMelodyArray(); // starryNight
+		const melody = adaptMelodyArray();
+		const options = option;
 		let result;
 
 		axios
-			.post('/api/harmonization/melodies', { melody })
+			.post('/api/harmonization/melodies', { melody, options })
 			.then((res) => {
 				result = {
 					status: 'ok',
@@ -157,6 +140,8 @@ export const MelodyInput = (props) => {
 				buttons={buttons}
 				selectedLength={noteLength}
 				selectLength={setNoteLength}
+				selectedOption={option}
+				selectOption={setOption}
 			/>
 			<Sequencer
 				inputMelody={inputMelody}
