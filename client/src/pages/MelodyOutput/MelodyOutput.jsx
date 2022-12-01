@@ -11,7 +11,7 @@ export const MelodyOutput = (props) => {
 	const audioRef = useRef();
 
 	const buttons = [
-		{ clickHandler: retry, label: 'Retry' },
+		//{ clickHandler: retry, label: 'Retry' },
 		{ clickHandler: goBack, label: 'Return' },
 	];
 
