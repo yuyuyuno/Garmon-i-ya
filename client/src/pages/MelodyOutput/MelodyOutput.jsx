@@ -68,7 +68,6 @@ export const MelodyOutput = (props) => {
 			{buttons.map((button, i) => (
 				<Button
 					key={`button${i}`}
-					className="btn"
 					clickHandler={button.clickHandler}
 					label={button.label}
 				/>
