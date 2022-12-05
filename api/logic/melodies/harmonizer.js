@@ -30,7 +30,7 @@ function getChordsAbc() {
 	const keyNotes = this.getKeyNotes().map((elem) => sharpToAbc(elem));
 
 	console.log(chordNotes);
-	chordNotes.forEach((rootNote) => {
+	chordNotes.forEach((rootNote, index) => {
 		if (keyNotes.includes(rootNote)) {
 			chordsAbc += `[${rootNote},8${
 				keyNotes[(keyNotes.indexOf(rootNote) + 2) % keyNotes.length]
@@ -39,6 +39,9 @@ function getChordsAbc() {
 			chordsAbc += getOutOfKeyChordAbc(rootNote);
 		}
 		chordsAbc += '|';
+		if ((index + 1) % 6 === 0 && index + 1 !== chordNotes.length) {
+			chordsAbc += '\n';
+		}
 	});
 
 	return chordsAbc;
@@ -59,6 +62,9 @@ function getArpeggioAbc() {
 		if (index !== chordNotes.length - 1)
 			arpeggioAbc += `${rootNote},2${fifth},2${rootNote}2${fifth},2|`;
 		else arpeggioAbc += `[${rootNote},8${fifth},8]|`;
+		if ((index + 1) % 6 === 0 && index + 1 !== chordNotes.length) {
+			arpeggioAbc += '\n';
+		}
 	});
 
 	return arpeggioAbc;

@@ -45,12 +45,19 @@ function getAbc(options) {
 	const startAbc =
 		'X:1\nT:Harmonized Melody\nR: Harmonized by GARMON I YA\nM: 4/4\nK:C\nV:1 clef=treble\n';
 	const notesAbc =
-		this.notes.reduce(
-			(resAbc, curMeasure) => resAbc + getMeasureAbc(curMeasure) + '|',
-			startAbc
-		) +
-		'\nV:2 clef=bass\n' +
-		this.harmonize(options);
+		this.notes.reduce((resAbc, curMeasure, measureNumber) => {
+			resAbc += getMeasureAbc(curMeasure) + '|';
+			if (
+				(measureNumber + 1) % 6 === 0 &&
+				measureNumber + 1 !== this.notes.length
+			) {
+				resAbc += '\n';
+			}
+			return resAbc;
+		}, startAbc) +
+		']\nV:2 clef=bass\n' +
+		this.harmonize(options) +
+		']';
 	console.log(notesAbc);
 	return notesAbc;
 }

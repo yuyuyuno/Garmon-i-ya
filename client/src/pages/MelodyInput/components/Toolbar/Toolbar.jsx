@@ -9,19 +9,24 @@ export const Toolbar = (props) => {
 		selectLength,
 		selectedOption,
 		selectOption,
+		goToTheManual,
 	} = props;
 
 	const toolbarStyles = {
 		display: 'flex',
 		flexDirection: 'row',
-		alignItems: 'stretch',
 		backgroundColor: '#DFD9E3',
 		padding: '15px',
-		//borderBottom: '5px solid',
+	};
+
+	const manualButtonStyles = {
+		float: 'right',
+		display: 'inline-block',
 	};
 
 	return (
 		<div style={toolbarStyles}>
+			<img src="logo.png" width="120px" height="auto" />
 			<LengthSelect
 				selectedLength={selectedLength}
 				selectLength={selectLength}
@@ -33,11 +38,13 @@ export const Toolbar = (props) => {
 			{buttons.map((button, i) => (
 				<Button
 					key={`button${i}`}
-					className="btn"
 					clickHandler={button.clickHandler}
 					label={button.label}
 				/>
 			))}
+			<div style={manualButtonStyles}>
+				<Button clickHandler={goToTheManual} label={'Show user manual'} />
+			</div>
 		</div>
 	);
 };

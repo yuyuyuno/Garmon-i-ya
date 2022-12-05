@@ -63,12 +63,13 @@ export const MelodyOutput = (props) => {
 
 	return (
 		<div>
-			<div ref={sheetRef}></div>
-			<div ref={audioRef}></div>
+			<div>
+				<div ref={sheetRef}></div>
+				<div ref={audioRef}></div>
+			</div>
 			{buttons.map((button, i) => (
 				<Button
 					key={`button${i}`}
-					className="btn"
 					clickHandler={button.clickHandler}
 					label={button.label}
 				/>

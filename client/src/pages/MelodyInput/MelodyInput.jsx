@@ -14,7 +14,7 @@ import {
 } from '../../utils';
 
 export const MelodyInput = (props) => {
-	const { handleGetHarmonized } = props;
+	const { handleGetHarmonized, goToTheManual } = props;
 
 	const [noteLength, setNoteLength] = useState('eighth');
 	const [option, setOption] = useState('chrd');
@@ -104,28 +104,34 @@ export const MelodyInput = (props) => {
 	};
 
 	const handleResButtonClick = () => {
-		const melody = adaptMelodyArray();
+		const melody = adaptMelodyArray().filter(
+			(measure) => measure.filter((note) => note.noteName !== 'stop').length
+		);
 		const options = option;
 		let result;
 
-		axios
-			.post('/api/harmonization/melodies', { melody, options })
-			.then((res) => {
-				result = {
-					status: 'ok',
-					sheets: res.data.harmonizedMelody,
-				};
-			})
-			.catch((err) => {
-				result = {
-					status: 'error',
-					errorCode: err.code,
-					errorMessage: err.message,
-				};
-			})
-			.finally(() => {
-				handleGetHarmonized(result);
-			});
+		if (melody.length) {
+			axios
+				.post('/api/harmonization/melodies', { melody, options })
+				.then((res) => {
+					result = {
+						status: 'ok',
+						sheets: res.data.harmonizedMelody,
+					};
+				})
+				.catch((err) => {
+					result = {
+						status: 'error',
+						errorCode: err.code,
+						errorMessage: err.message,
+					};
+				})
+				.finally(() => {
+					handleGetHarmonized(result);
+				});
+		} else {
+			alert('Please input something first!');
+		}
 	};
 
 	const buttons = [
@@ -142,6 +148,7 @@ export const MelodyInput = (props) => {
 				selectLength={setNoteLength}
 				selectedOption={option}
 				selectOption={setOption}
+				goToTheManual={goToTheManual}
 			/>
 			<Sequencer
 				inputMelody={inputMelody}
