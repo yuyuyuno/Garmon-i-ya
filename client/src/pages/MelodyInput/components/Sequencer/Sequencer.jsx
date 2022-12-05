@@ -11,6 +11,7 @@ export const Sequencer = (props) => {
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'stretch',
+		overflow: 'scroll',
 	};
 
 	const lengthToCellQuantity = {
@@ -18,6 +19,17 @@ export const Sequencer = (props) => {
 		quarter: 2,
 		half: 4,
 		whole: 8,
+	};
+
+	const getActualNoteLength = (column) => {
+		if (
+			Math.floor(column / 8) !==
+			Math.floor((column + lengthToCellQuantity[noteLength] - 1) / 8)
+		) {
+			return 8 - (column % 8);
+		} else {
+			return lengthToCellQuantity[noteLength];
+		}
 	};
 
 	const deleteNote = (newMelody, index) => {
@@ -34,7 +46,11 @@ export const Sequencer = (props) => {
 		}
 		newMelody[index] = null;
 		++index;
-		while (newMelody[index] !== null && newMelody[index].isHeld) {
+		while (
+			index < newMelody.length &&
+			newMelody[index] !== null &&
+			newMelody[index].isHeld
+		) {
 			newMelody[index] = null;
 			++index;
 		}
@@ -42,10 +58,9 @@ export const Sequencer = (props) => {
 
 	const changeMelody = (row, column) => {
 		const newMelody = [...inputMelody];
-		const noteInterval = getRangeArray(
-			lengthToCellQuantity[noteLength],
-			column
-		);
+		const actualNoteLength = getActualNoteLength(column);
+
+		const noteInterval = getRangeArray(actualNoteLength, column);
 
 		if (
 			newMelody[column] &&
